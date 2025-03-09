@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhan.cart">
+	<!-- <select id="selectAll" parameterType="int" resultType="ArtsVO"> SELECT 
+		arts.* FROM carts join arts on (arts.art_ID = carts.art_ID) where carts.member_ID=#{aa} 
+		</select> -->
+
+	<select id="selectCategory" parameterType="int" resultType="map">
+		SELECT * FROM mini_categories join arts on (arts.mini_category_ID =
+		mini_categories.mini_category_ID)
+		join categories using (category_ID)
+		join carts on (carts.art_ID = arts.art_ID)
+		where
+		carts.member_ID=#{member_ID};
+	</select>
+
+	<insert id="insertCart" parameterType="com.shinhan.VO.CartsDTO">
+		INSERT IGNORE INTO carts
+		(member_id, art_id)
+		VALUES (#{member_id}, #{art_id});
+	</insert>
+
+
+	<delete id="delete" parameterType="int">
+		delete
+		from carts
+		where
+		member_ID=#{member_id} and art_ID =#{art_id};
+	</delete>
+	
+	<delete id="outOfStock" parameterType="int">
+		delete
+		from carts
+		where
+		art_ID =#{art_id};
+	</delete>
+	
+	<!-- carts 테이블에서 특정 member_id의 art_ID 가져오기 -->
+	<select id="getCartsByMemberId" resultType="int">
+		SELECT art_ID
+		FROM
+		carts
+		WHERE member_ID = #{member_id}
+	</select>
+	
+	<delete id="deletecarts" parameterType="int">
+		delete
+		from carts
+		where
+		member_ID=#{member_id};
+
+	</delete>
+</mapper>

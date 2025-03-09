@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhan.artSearch">
+
+	<select id="selectByMiniCategoryId" resultType="com.shinhan.VO.ArtsDTO">
+		select *
+		from arts
+		where mini_category_id = #{mini_category_id} and is_exist = 1
+		order by art_post_date DESC;
+	</select>
+	
+	<select id="selectByArtTitle" resultType="com.shinhan.VO.ArtsDTO">
+		select *
+		from arts
+		where art_title LIKE CONCAT('%', #{keyword}, '%') and is_exist = 1
+		order by art_post_date DESC;
+	</select>
+	
+	<select id="selectByMemberName" resultType="com.shinhan.VO.ArtsDTO">
+		select *
+		from arts
+		join members using (member_id)
+		where member_name LIKE CONCAT('%', #{keyword}, '%') and is_exist = 1
+		order by art_post_date DESC;
+	</select>
+	
+	<!-- 최근 작품순 -->
+	<select id="getArtByRecent" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		order by art_post_date ASC
+	</select>
+	
+	<!-- 인기순 -->
+	<select id="getArtByVeiw" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		order by art_view DESC
+	</select>
+	
+	<!-- 좋아요순 -->
+	<select id="getArtByLike" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		order by art_like DESC
+	</select>
+	
+	<!-- 낮은가격순 -->
+	<select id="getArtByPriceASC" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		order by art_price ASC
+	</select>
+	
+	<!-- 높은가격순 -->
+	<select id="getArtByPriceDESC" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		order by art_price DESC
+	</select>
+	
+	<!-- 가격필터 -->
+	<select id="getArtByPriceRange" resultType="com.shinhan.VO.ArtsDTO">
+		select * from arts
+		where art_price between #{minPrice} and #{maxPrice}
+	</select>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhan.art">
+
+
+
+	<!-- 특정id 아트 상세 조회 -->
+	<select id="selectById" parameterType="int" resultType="artsVO">
+		select *
+		from arts
+		where art_ID = #{art_ID}
+		AND is_exist = 1
+
+	</select>
+
+
+	<!-- 카테고리 타입 불러오기 -->
+	<select id="selectArtCategoryType"
+		resultType="com.shinhan.VO.CategoriesDTO" parameterType="int">
+		select *
+		from
+		categories
+		where category_id = #{category_id}
+		
+	</select>
+
+	<!-- 특정 미니 카테고리의 대분류 조회 -->
+	<select id="selectArtCategoryID"
+		resultType="com.shinhan.VO.MiniCategoriesDTO" parameterType="int">
+		select *
+		from mini_categories
+		where mini_category_id = #{mini_category_id}
+		
+	</select>
+
+	<!-- 특정id 아트 상세 조회 -->
+	<select id="selectByArtId" resultType="com.shinhan.VO.ArtsDTO"
+		parameterType="int">
+		select *
+		from arts
+		where art_id = #{art_id}
+		AND is_exist = 1
+	</select>
+	<!-- 작품 조회수 -->
+	<update id="viewplus" parameterType="com.shinhan.VO.ArtsDTO">
+		update arts 
+		SET art_view = art_view + 1
+		where
+		art_id=#{art_id}
+		
+	</update>
+
+	<!-- 작품 등록 -->
+	<insert id="insert" parameterType="com.shinhan.VO.ArtsDTO">
+		insert into arts (
+		member_id,
+		mini_category_id,
+		art_title,
+		art_price,
+		art_description,
+		art_status,
+		art_size,
+		art_like,
+		art_view,
+		art_thumbnail_image,
+		art_hovering_image,
+		art_image2,
+		art_image3,
+		art_image4,
+		art_image5
+		)
+		values (
+		#{member_id},
+		#{mini_category_id},
+		#{art_title},
+		#{art_price},
+		#{art_description},
+		'판매중',
+		#{art_size},
+		'0',
+		'0',
+		#{art_thumbnail_image},
+		#{art_hovering_image},
+		#{art_image2},
+		#{art_image3},
+		#{art_image4},
+		#{art_image5}
+		)
+	</insert>
+
+	<!-- 작품 수정 -->
+	<update id="update" parameterType="com.shinhan.VO.ArtsDTO">
+		update arts set
+		mini_category_id=#{mini_category_id},
+		art_title=#{art_title},
+		art_price=#{art_price},
+		art_description=#{art_description},
+		art_status=#{art_status},
+		art_size=#{art_size},
+		art_thumbnail_image=#{art_thumbnail_image},
+		art_hovering_image=#{art_hovering_image},
+		art_image2=#{art_image2},
+		art_image3=#{art_image3},
+		art_image4=#{art_image4},
+		art_image5=#{art_image5}
+		where
+		art_id=#{art_id}
+	</update>
+
+	<!-- 작품 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete
+		from arts
+		where
+		art_id =
+		#{art_id}
+	</delete>
+	
+	<update id="updateIsExist" parameterType="int">
+		update arts set
+		is_exist = 0
+		where art_id = #{art_id}
+	</update>
+
+
+</mapper>

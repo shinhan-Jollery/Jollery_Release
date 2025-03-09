@@ -1,0 +1,27 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.target/
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# 환경 파일
+*.properties
+*.yml
+*.env
+
+# 로그 파일
+*.log
+
+# 운영체제 파일
+Thumbs.db
+.DS_Store
